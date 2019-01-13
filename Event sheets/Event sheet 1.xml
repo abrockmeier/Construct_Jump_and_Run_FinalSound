@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <comment>The Global number PlayerHP  has the default value of &quot;8&quot;. (The Player´s Health on start of the Game.)</comment>
+        <variable comment="HealthPoints of the Player" constant="0" name="PlayerHP" sid="524049030805923" static="0" type="number">8</variable>
+        <comment>Sub-groups of events and theier actions. (This is necessary for the gamelogic.)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+        <event-group description="This is the controller, where the game logic ist placed. @Author: Fred Basalama" sid="807528034288106" title="Game Controller">
+            <sub-events>
+                <comment>The initial event to get the Level ready for the player.&#x0D;&#x0A;Action  1: Set the animated sprite of the Player on top of the invisible blue rectangle called &quot;RealPlayer&quot; which has the platformer behavior. (Initial start point)&#x0D;&#x0A;Action  2: &quot;Pin&quot; allows the Player to connect the sprite of the Player and the RealPlayer.&#x0D;&#x0A;Action  3: Initial start animation of the RealPlayer stored in a instance [text]-variable named direction.&#x0D;&#x0A;Action  4: Is necessary for the restart of the Layout if the Player gets killed by the monsters. (And also if he reaches the Level_EndPoint)&#x0D;&#x0A;Action  5: The second action plays a sound: &quot;119487.ogg&quot;.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="754459681525162">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="795855243125574" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-4" name="Set position to another object" sid="609661665781810" type="Player">
+                            <param id="0" name="Object">RealPlayer</param>
+                            <param id="1" name="Image point (optional)">0</param>
+                        </action>
+                        <action behavior="Pin" id="0" name="Pin to object" sid="590723934310915" type="Player">
+                            <param id="0" name="Pin to">RealPlayer</param>
+                            <param id="1" name="Mode">0</param>
+                        </action>
+                        <action id="-10" name="Set value" sid="743185214510905" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Idle&quot;</param>
+                        </action>
+                        <action id="-13" name="Set time scale" sid="908166705465442" type="System">
+                            <param id="0" name="Time scale">1</param>
+                        </action>
+                        <action id="7" name="Play (by name)" sid="236542346422403" type="Audio">
+                            <param id="0" name="Folder">0</param>
+                            <param id="1" name="Audio file name">&quot;119487&quot;</param>
+                            <param id="3" name="Loop">0</param>
+                            <param id="4" name="Volume">-5</param>
+                            <param id="2" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>The following event is called when the global Variable[Number] named PlayerHP is less then &quot;1&quot;.&#x0D;&#x0A;Action 1: Set the position of the TextBox to the current position of the RealPlayer.&#x0D;&#x0A;Action 2: Instruction to wait 2 seconds to inform the USER that the game will be restartet.&#x0D;&#x0A;Action 3: Restart of the current Layout. (Initial &quot;calls&quot;...)&#x0D;&#x0A;Action 4: Reset the persited objects. (Necessary for restart)&#x0D;&#x0A;Action 5: Reset global variables to default.&#x0D;&#x0A;Action 6: The sixth action plays a sound: &quot;restart_beeps&quot;.&#x0D;&#x0A;&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="601460312362575">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="174606735608550" type="System">
+                            <param id="0" name="Variable">PlayerHP</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-4" name="Set position to another object" sid="998358651985090" type="TextBox">
+                            <param id="0" name="Object">RealPlayer</param>
+                            <param id="1" name="Image point (optional)">0</param>
+                        </action>
+                        <action id="-16" name="Wait" sid="156524822825561" type="System">
+                            <param id="0" name="Seconds">2.0</param>
+                        </action>
+                        <action id="-26" name="Restart layout" sid="909292001374240" type="System" />
+                        <action id="-45" name="Reset persisted objects" sid="732273527730289" type="System" />
+                        <action id="-21" name="Reset global variables" sid="125223723020828" type="System" />
+                        <action id="7" name="Play (by name)" sid="115194791336053" type="Audio">
+                            <param id="0" name="Folder">0</param>
+                            <param id="1" name="Audio file name">&quot;restart_beeps&quot;</param>
+                            <param id="3" name="Loop">0</param>
+                            <param id="4" name="Volume">0</param>
+                            <param id="2" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="This is the RealPlayer Controller, where the Event for the I/O and behavior that belongs to the RealPlayer is placed. @Author: Fred Basalama" sid="362915149697884" title="RealPlayer Controller">
+            <sub-events>
+                <comment>This method implements an event to check at every tick if the instance variable has been changed and selects the proper animation.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="493988316696727">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="746397412482762" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="4" name="Set animation" sid="843505882784098" type="Player">
+                            <param id="0" name="Animation">&quot;&quot;&amp;RealPlayer.direction</param>
+                            <param id="1" name="From">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This event is a listener for the right arrow pressed event.&#x0D;&#x0A;Action 1: Set the instance variable to &quot;Move&quot;. (Applies proper animation to the moving direction of the RealPlayer.)&#x0D;&#x0A;Action 2: Set not mirrored. (The animation for &quot;Move&quot; is already facing to the right.)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block any="1" sid="580034105888797">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="729857692942572" type="Keyboard">
+                            <param id="0" name="Key">39</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="335935859434919" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Move&quot;</param>
+                        </action>
+                        <action id="7" name="Set mirrored" sid="968551895113081" type="Player">
+                            <param id="0" name="State">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This event is a listener for the left arrow pressed event.&#x0D;&#x0A;Action 1: Set the instance variable to &quot;Move&quot;. (Applies proper animation to the moving direction of the RealPlayer.)&#x0D;&#x0A;Action 2: Set mirrored. (The animation for &quot;Move&quot; has to be mirrored while moving to the left.)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="153411209076787">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="641427853118147" type="Keyboard">
+                            <param id="0" name="Key">37</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="949292056706623" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Move&quot;</param>
+                        </action>
+                        <action id="7" name="Set mirrored" sid="789969086673822" type="Player">
+                            <param id="0" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This event is a listener for the up arrow pressed event.&#x0D;&#x0A;Action 1: Set the instance variable to &quot;Jump&quot;. (Applies proper animation for a jump of the RealPlayer)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="883722420219566">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="786045888858518" type="Keyboard">
+                            <param id="0" name="Key">38</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="605949844901386" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Jump&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This event is a listener to check if the RealPlayer with his platform behavior is on the floor.&#x0D;&#x0A;Action 1: Set the instance variable to &quot;Idle&quot;. (If the Real Player is on the floor which means not moving the instance variable is set to &quot;Idle&quot;.)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="641696574277971">
+                    <conditions>
+                        <condition behavior="Platform" id="2" name="Is on floor" sid="885359789968479" type="RealPlayer" />
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="317813132644654" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Idle&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This event is a listener to check if the RealPlayer with his platform behavior is moving.&#x0D;&#x0A;Action 1: Set the instance variable to &quot;Move&quot;. (If the Real Player moving the instance variable is set to &quot;Move&quot;.)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="576109396190442">
+                    <conditions>
+                        <condition behavior="Platform" id="0" name="Is moving" sid="582456810231073" type="RealPlayer" />
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="807019396161117" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Move&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This event is a listener to check if the RealPlayer with his platform behavior is jumping.&#x0D;&#x0A;Action 1: Set the instance variable to &quot;Jump&quot;. (If the Real Player is jumping the instance variable is set to &quot;Jump&quot;.)&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="684858179468649">
+                    <conditions>
+                        <condition behavior="Platform" id="3" name="Is jumping" sid="888449697790643" type="RealPlayer" />
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="678338584555541" type="RealPlayer">
+                            <param id="0" name="Instance variable">direction</param>
+                            <param id="1" name="Value">&quot;Jump&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This is an event to check for a collision with the Player. (The SpriteDoor has an added behavior: fade)&#x0D;&#x0A;Action 1: This action gets triggered by the collision and sets the fade-out time of SpriteDoor to 3.5. &#x0D;&#x0A;Action 2: The second acction starts the fade.&#x0D;&#x0A;Action 3: The third action plays a sound: &quot;02_Stay.ogg&quot;.&#x0D;&#x0A;Author: Fred Basalama</comment>
+                <event-block sid="951964899775922">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="908632295067949" type="SpriteDoor">
+                            <param id="0" name="Object">Player</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Fade" id="4" name="Set fade-out time" sid="856405487588001" type="SpriteDoor">
+                            <param id="0" name="Fade-out time">3.5</param>
+                        </action>
+                        <action behavior="Fade" id="1" name="Start fade" sid="689890485503699" type="SpriteDoor" />
+                        <action id="7" name="Play (by name)" sid="291301473256474" type="Audio">
+                            <param id="0" name="Folder">0</param>
+                            <param id="1" name="Audio file name">&quot;02_Stay&quot;</param>
+                            <param id="3" name="Loop">0</param>
+                            <param id="4" name="Volume">-20</param>
+                            <param id="2" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This is an event to check for a collision with the Player. (The Sprite_EndPoint is the &quot;end&quot; of the level and can be used to enter the next layout [not implementet].)&#x0D;&#x0A;Action 1: This action gets triggered by collision and sets the global variable PlayerHP to -1.  (currently the Layout one is the only level, so this is a loop.) &#x0D;&#x0A;Action 2: The second action plays a sound: &quot;01_endOfGame.ogg&quot;.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="740662092717135">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="249477427777205" type="Sprite_EndPoint">
+                            <param id="0" name="Object">Player</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="890933062479422" type="System">
+                            <param id="0" name="Variable">PlayerHP</param>
+                            <param id="1" name="Value">-1</param>
+                        </action>
+                        <action id="7" name="Play (by name)" sid="115080566074393" type="Audio">
+                            <param id="0" name="Folder">0</param>
+                            <param id="1" name="Audio file name">&quot;01_endOfGame&quot;</param>
+                            <param id="3" name="Loop">0</param>
+                            <param id="4" name="Volume">-10</param>
+                            <param id="2" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="This is the Enemis sub-group with the enemies implementation. @Author: Fred Basalama" sid="104938803139663" title="Enemies">
+            <sub-events>
+                <comment>This method detects a collision of the Sprite5 (the monsters in the layout) with the RealPlayer´s collision polygon. The performed action will subtract 1 from the PlayerHP global variable.&#x0D;&#x0A;Action 2: Play the sound &quot;tonk3.ogg&quot;.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="570044139770660">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="834890845786501" type="Sprite5">
+                            <param id="0" name="Object">RealPlayer</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-11" name="Subtract from" sid="176882370088997" type="System">
+                            <param id="0" name="Variable">PlayerHP</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="7" name="Play (by name)" sid="372917277526188" type="Audio">
+                            <param id="0" name="Folder">0</param>
+                            <param id="1" name="Audio file name">&quot;tonk3&quot;</param>
+                            <param id="3" name="Loop">0</param>
+                            <param id="4" name="Volume">0</param>
+                            <param id="2" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This method on every tick the action sets the animation of the Sprite5 to &quot;Default&quot; use is to animate the monster.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="910550186495912">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="879718096683306" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="4" name="Set animation" sid="243597627956809" type="Sprite5">
+                            <param id="0" name="Animation">&quot;Default&quot;</param>
+                            <param id="1" name="From">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This method is used to create the initial movement of the Sprite5 (that has also the platform behavior, but no custom movement like the RealPlayer).&#x0D;&#x0A;The action of moving left will be performed every 0.04 seconds. &#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="200135059053022">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="963369412752643" type="System">
+                            <param id="0" name="Interval (seconds)">0.04</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="7" name="Simulate control" sid="759686100613101" type="Sprite5">
+                            <param id="0" name="Control">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This method implements an action that occours every three seconds, a platform behavior that simulates a jump for the Sprite5.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="988315746806511">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="435569572118596" type="System">
+                            <param id="0" name="Interval (seconds)">3.0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="7" name="Simulate control" sid="419349658170575" type="Sprite5">
+                            <param id="0" name="Control">2</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This method implements an action that occours every six seconds, a platform behavior that simulates a &quot;beam&quot; of the Sprite 5 of 50 pixels while it is jumping (to simulate a special behavior and to respawn on the opposite direction of the initial movement direction). &#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="954280714151346">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="719281141458770" type="System">
+                            <param id="0" name="Interval (seconds)">6.0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-17" name="Move forward" sid="106824626538148" type="Sprite5">
+                            <param id="0" name="Distance">50</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>This method implements an action that occours every 30 seconds, a platform behavior that simulates a &quot;beam&quot; of the Sprite 5 of 250 pixels while it is jumping (to simulate a special behavior and to respawn on the opposite direction of the initial movement direction). This is for the reason that otherwise the monsters will reach the left end of the layout after a period of time an would stay there.&#x0D;&#x0A;@Author: Fred Basalama</comment>
+                <event-block sid="357301968092359">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="861595146671397" type="System">
+                            <param id="0" name="Interval (seconds)">30</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-17" name="Move forward" sid="660803301739899" type="Sprite5">
+                            <param id="0" name="Distance">250</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="This is the PlayerHUD. (Heads up Display). Here the events for the progressBar are implemented. @Author: Fred Basalama" sid="806645295836675" title="PlayerHUD">
+            <sub-events>
+                <comment>This event sets the following actions on every tick:&#x0D;&#x0A;Action 1: Set Value to PlayerHP. (The current PlayerHP value of the instance variable is set to the Value variable of the ProgressBar.)&#x0D;&#x0A;Action 2: The status of the ProgressBar´s progress is set to the ProgressBar.Value [Instance variable].&#x0D;&#x0A;@Author: Fred Basalama </comment>
+                <event-block sid="924061244778835">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="733302119398902" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Set value" sid="278729062295873" type="ProgressBar">
+                            <param id="0" name="Instance variable">Value</param>
+                            <param id="1" name="Value">PlayerHP</param>
+                        </action>
+                        <action id="3" name="Set progress" sid="435276074352464" type="ProgressBar">
+                            <param id="0" name="Value">ProgressBar.Value</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>
